@@ -34,6 +34,7 @@ function FormField({
 				placeholder={placeHolder}
 				value={value}
 				required
+				className='bg-gray-80 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#6469ff] focus:border-[#6469ff] outline-none black w-full p-3'
 			/>
 		</div>
 	);
