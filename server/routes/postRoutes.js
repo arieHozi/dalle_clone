@@ -6,5 +6,35 @@ import Post from '../mongodb/models/post.js';
 
 dotenv.config();
 const router = express.Router();
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	cloud_name: process.env.CLOUDINARY_API_KEY,
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+});
+
+//get all posts
+router.route('/').get(async (req, res) => {
+	try {
+		const posts = await Post.find({});
+		res.status(200).json({ sucsses: true, data: posts });
+	} catch (err) {
+		res.status(500).json({ sucsses: false, message: err });
+	}
+});
+//create a post
+router.route('/').post(async (req, res) => {
+	try {
+		const { name, prompt, photo } = req.body;
+		const photoUrl = await cloudinary.uploader.upload(photo);
+		const newPost = new Post({
+			name,
+			prompt,
+			photo: photoUrl.url,
+		});
+		res.status(201).json({ sucsses: true, data: newPost });
+	} catch (err) {
+		res.status(500).json({ sucsses: false, message: err });
+	}
+});
 
 export default router;
